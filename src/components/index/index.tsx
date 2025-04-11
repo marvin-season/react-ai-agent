@@ -1,5 +1,17 @@
-export const Index = () => {
-  return <>
+import { pushMessage, UIId, useAgentStore } from '@/store/agent'
 
-    index</>;
-};
+export const Index = () => {
+  const store = useAgentStore()
+  return (
+    <>
+      <div
+        onClick={() => {
+          pushMessage({ content: 'hello', uiId: UIId.system })
+        }}
+      >
+        ADD
+      </div>
+      {store.messages.map((item) => item.content)}
+    </>
+  )
+}
