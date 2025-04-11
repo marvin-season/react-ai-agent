@@ -30,6 +30,18 @@ export const Index = () => {
         >
           update(bot)
         </button>
+        <button
+          className="cursor-pointer bg-white border px-2 py-1 rounded hover:bg-slate-200"
+          onClick={() => {
+            updateMessage({ 
+              content: '', 
+              uiId: UIId.tool, 
+              id: Math.random().toString().slice(2)
+            })
+          }}
+        >
+          tool
+        </button>
       </div>
       {store.messages.map((item) => {
         const render = UIMap.get(item.uiId)

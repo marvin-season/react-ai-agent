@@ -29,4 +29,16 @@ export function initUI() {
       </div>
     )
   })
+
+  UIMap.set(UIId.tool, (item) => {
+    return (
+      <div className="bg-gray-100 rounded-md p-2 flex flex-col gap-2">
+        <div className='flex gap-2'>
+          <span className="bg-white px-2 py-1 rounded-xl text-sm">{'tool'}</span>
+          <span className="bg-blue-300 text-white px-2 py-1 rounded-xl text-sm">{item.id}</span>
+        </div>
+        <div className="bg-green-500 text-white px-2 py-1 rounded-xl text-sm">{item.content}</div>
+      </div>
+    )
+  })
 }

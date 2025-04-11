@@ -2,6 +2,7 @@ export enum UIId {
   system,
   user,
   bot,
+  tool,
 }
 
 export const UIMap = new Map<UIId, (item: MessageProps) => ReactNode>()
