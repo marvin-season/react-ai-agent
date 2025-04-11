@@ -1,4 +1,4 @@
-import { pushMessage, UIId, UIMap, useAgentStore } from '@/store/agent'
+import { updateMessage, UIId, UIMap, useAgentStore } from '@/store/agent'
 
 export const Index = () => {
   const store = useAgentStore()
@@ -6,7 +6,7 @@ export const Index = () => {
     <>
       <div
         onClick={() => {
-          pushMessage({ content: 'hello', uiId: UIId.system })
+          updateMessage({ content: 'hello', uiId: UIId.system, id: 'user1' })
         }}
       >
         ADD
