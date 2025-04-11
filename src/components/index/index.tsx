@@ -6,10 +6,17 @@ export const Index = () => {
     <>
       <div
         onClick={() => {
-          updateMessage({ content: 'hello', uiId: UIId.system, id: 'user1' })
+          updateMessage({ content: 'hello', uiId: UIId.user, id: Math.random().toString().slice(2) })
         }}
       >
-        ADD
+        push
+      </div>
+      <div
+        onClick={() => {
+          updateMessage({ content: 'hello', uiId: UIId.user, id: '27392189038218309'})
+        }}
+      >
+        update
       </div>
       {store.messages.map((item) => {
         const render = UIMap.get(item.uiId)

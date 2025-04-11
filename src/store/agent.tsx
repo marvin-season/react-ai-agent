@@ -1,11 +1,33 @@
 export enum UIId {
   system,
+  user,
+  bot,
 }
 
 export const UIMap = new Map<UIId, (item: MessageProps) => ReactNode>()
 UIMap.set(UIId.system, (item) => {
   return (
     <div>
+      <span>{'system'}</span>
+      <span>{item.id}</span>
+      <span>{item.content}</span>
+    </div>
+  )
+})
+UIMap.set(UIId.user, (item) => {
+  return (
+    <div>
+      <span>{'user'}</span>
+      <span>{item.id}</span>
+      <span>{item.content}</span>
+    </div>
+  )
+})
+
+UIMap.set(UIId.bot, (item) => {
+  return (
+    <div>
+      <span>{'bot'}</span>
       <span>{item.id}</span>
       <span>{item.content}</span>
     </div>
@@ -24,7 +46,7 @@ interface AgentProps {
 export const Agent: AgentProps = {
   messages: [
     {
-      id: 'system1',
+      id: Math.random().toString().slice(2),
       content: 'hi, what can i do for you today?',
       uiId: UIId.system,
     },
