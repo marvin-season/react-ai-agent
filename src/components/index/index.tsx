@@ -44,9 +44,9 @@ export const Index = () => {
         </button>
       </div>
       {store.messages.map((item) => {
-        const render = UIMap.get(item.uiId)
-        if (!render) return null
-        return render(item)
+        const UI = UIMap.get(item.uiId)
+        if (!UI) return null
+        return <UI key={item.id} item={item}/>
       })}
     </>
   )

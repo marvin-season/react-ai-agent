@@ -5,9 +5,9 @@ export enum UIId {
   tool,
 }
 
-export const UIMap = new Map<UIId, (item: MessageProps) => ReactNode>()
+export const UIMap = new Map<UIId, ({ item }: { item: MessageProps }) => ReactNode>()
 
-interface MessageProps {
+export interface MessageProps {
   content: string
   id: string
   uiId: UIId
