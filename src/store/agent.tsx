@@ -75,10 +75,12 @@ export const updateMessage = (message: MessageProps) => {
         ...store.messages[existedIndex],
         content: store.messages[existedIndex].content + message.content,
       },
+      ...store.messages.slice(existedIndex + 1),
     ]
   } else {
     newMessages = store.messages.concat(message)
   }
+  console.log(newMessages)
   setAgentStore({
     messages: newMessages,
   })
