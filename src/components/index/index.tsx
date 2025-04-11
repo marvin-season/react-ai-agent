@@ -1,6 +1,6 @@
 import { updateMessage, UIId, UIMap, useAgentStore } from '@/store/agent'
-import { initUI } from '@/utils/ui-register'
-initUI();
+import { EE, initUI } from '@/utils/ui-register'
+initUI()
 export const Index = () => {
   const store = useAgentStore()
   return (
@@ -33,11 +33,18 @@ export const Index = () => {
         <button
           className="cursor-pointer bg-white border px-2 py-1 rounded hover:bg-slate-200"
           onClick={() => {
-            updateMessage({ 
-              content: '', 
-              uiId: UIId.tool, 
-              id: Math.random().toString().slice(2)
+            const id = Math.random().toString().slice(2)
+            updateMessage({
+              content: '',
+              uiId: UIId.tool,
+              id,
             })
+            setInterval(() => {
+              EE.emit('tool', {
+                id,
+                str: 'hi',
+              })
+            }, 10)
           }}
         >
           tool
@@ -46,7 +53,7 @@ export const Index = () => {
       {store.messages.map((item) => {
         const UI = UIMap.get(item.uiId)
         if (!UI) return null
-        return <UI key={item.id} item={item}/>
+        return <UI key={item.id} item={item} />
       })}
     </>
   )
