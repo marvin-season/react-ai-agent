@@ -1,5 +1,6 @@
 import { updateMessage, UIId, UIMap, useAgentStore } from '@/store/agent'
-
+import { initUI } from '@/utils/ui-register'
+initUI();
 export const Index = () => {
   const store = useAgentStore()
   return (
