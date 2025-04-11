@@ -2,6 +2,14 @@ export enum UIId {
   system,
 }
 
+export const UIMap = new Map<UIId, (item: MessageProps) => ReactNode>();
+UIMap.set(UIId.system, (item) => {
+    return <div>
+        <span>System:</span>
+        <span>{item.content}</span>
+    </div>
+})
+
 interface MessageProps {
   content: string
   uiId: UIId
@@ -21,6 +29,7 @@ export const Agent: AgentProps = {
 
 export const UIStore = {}
 
+import { ReactNode } from 'react'
 import createStore from './createStore'
 
 const { useStore, setState, getState } = createStore<AgentProps>(Agent)

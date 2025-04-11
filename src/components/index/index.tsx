@@ -1,4 +1,4 @@
-import { pushMessage, UIId, useAgentStore } from '@/store/agent'
+import { pushMessage, UIId, UIMap, useAgentStore } from '@/store/agent'
 
 export const Index = () => {
   const store = useAgentStore()
@@ -11,7 +11,11 @@ export const Index = () => {
       >
         ADD
       </div>
-      {store.messages.map((item) => item.content)}
+      {store.messages.map((item) => {
+        const render = UIMap.get(item.uiId)
+        if (!render) return null
+        return render(item)
+      })}
     </>
   )
 }
