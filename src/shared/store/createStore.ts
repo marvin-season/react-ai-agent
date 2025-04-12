@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from "react";
-import { useCallback } from "react";
 
 /**
  * Type for store listener function
@@ -8,6 +7,8 @@ type Listener = () => void;
 
 /**
  * Type for store selector function
+ * @template T The store state type
+ * @template R The return type of the selector
  */
 type Selector<T, R> = (state: T) => R;
 
@@ -41,12 +42,13 @@ function createStore<T>(initialState: T) {
    * @param partial Partial state to merge with current state
    */
   const setState = (partial: Partial<T>) => {
-    // Create new state by merging current state with partial update
     const newState = { ...state, ...partial };
-
-    // Update state and notify listeners
-    state = newState;
-    listeners.forEach((listener) => listener());
+    
+    // Only update and notify if state actually changed
+    if (JSON.stringify(newState) !== JSON.stringify(state)) {
+      state = newState;
+      listeners.forEach((listener) => listener());
+    }
   };
 
   /**
@@ -58,10 +60,13 @@ function createStore<T>(initialState: T) {
     // If selector is provided, use it to extract specific state
     if (selector) {
       // Create a memoized selector that only updates when selected value changes
-      const memoizedSelector = useCallback(() => selector(getSnapshot()), [selector]);
-      return useSyncExternalStore(subscribe, memoizedSelector, memoizedSelector);
+      return useSyncExternalStore(
+        subscribe,
+        () => selector(getSnapshot()),
+        () => selector(getSnapshot())
+      );
     }
-
+    
     // Otherwise return the full state
     return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   };
@@ -73,4 +78,4 @@ function createStore<T>(initialState: T) {
   };
 }
 
-export default createStore
+export default createStore;
