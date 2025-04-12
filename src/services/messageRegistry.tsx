@@ -1,14 +1,11 @@
-import { ReactNode } from "react";
-import { MessageProps, UIId } from "../types/message";
-import { SystemMessage } from "../components/messages/SystemMessage";
-import { UserMessage } from "../components/messages/UserMessage";
-import { BotMessage } from "../components/messages/BotMessage";
-import { ToolMessage } from "../components/messages/ToolMessage";
+import React, { ReactNode } from "react";
+import { MessageProps, UIId } from "@/store/agent";
+import { SystemUI, UserUI, BotUI, ToolUI } from "@/utils/ui-register";
 
 /**
  * Type for message component renderer
  */
-type MessageRenderer = React.FC<{ message: MessageProps }>;
+type MessageRenderer = React.FC<{ item: MessageProps }>;
 
 /**
  * Registry of message renderers by UI type
@@ -43,17 +40,17 @@ class MessageRegistry {
     const Renderer = this.getRenderer(message.uiId);
     if (!Renderer) return null;
     
-    return <Renderer key={message.id} message={message} />;
+    return <Renderer key={message.id} item={message} />;
   }
 
   /**
    * Initialize the registry with default renderers
    */
   initializeDefaults(): void {
-    this.register(UIId.SYSTEM, SystemMessage);
-    this.register(UIId.USER, UserMessage);
-    this.register(UIId.BOT, BotMessage);
-    this.register(UIId.TOOL, ToolMessage);
+    this.register(UIId.system, SystemUI);
+    this.register(UIId.user, UserUI);
+    this.register(UIId.bot, BotUI);
+    this.register(UIId.tool, ToolUI);
   }
 }
 

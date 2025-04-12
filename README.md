@@ -19,6 +19,8 @@ src/
 │       ├── ChatInterface.tsx   # Main chat interface
 │       ├── MessageList.tsx     # Message list display
 │       └── index.ts            # Feature exports
+├── services/          # Service implementations
+│   └── messageRegistry.tsx # Message renderer registry
 ├── store/             # State management
 │   ├── agent.tsx      # Chat agent store
 │   └── createStore.tsx # Store creation utility
