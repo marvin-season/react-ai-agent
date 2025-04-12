@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from 'react';
 
 /**
  * Props for the MessageBadge component
  */
 interface MessageBadgeProps {
   /** Label text to display */
-  label: string;
+  label: string | number;
   /** Background color class */
   bgColor?: string;
   /** Text color class */
@@ -13,16 +13,16 @@ interface MessageBadgeProps {
 }
 
 /**
- * A badge component used in message displays
+ * Badge component for message UI elements
  */
-export const MessageBadge: React.FC<MessageBadgeProps> = ({
+export const MessageBadge = memo(({
   label,
   bgColor = "bg-white",
-  textColor = "text-gray-800",
-}) => {
+  textColor = "text-gray-800"
+}: MessageBadgeProps) => {
   return (
     <span className={`${bgColor} ${textColor} px-2 py-1 rounded-xl text-sm`}>
       {label}
     </span>
   );
-};
+});

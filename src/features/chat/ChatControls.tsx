@@ -1,6 +1,6 @@
 import React from "react";
 import { UIId, updateMessage } from "@/store/agent";
-import { EE } from "@/utils/ui-register";
+import { EE } from "@/utils/events";
 
 /**
  * Component for chat control buttons

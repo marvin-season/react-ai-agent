@@ -12,7 +12,14 @@ The project follows a feature-based organization with shared components and util
 
 ```
 src/
-├── components/        # Legacy component implementations
+├── components/        # UI component implementations
+│   └── messages/       # Message UI components
+│       ├── MessageBadge.tsx   # Badge component for messages
+│       ├── SystemMessage.tsx  # System message component
+│       ├── UserMessage.tsx    # User message component
+│       ├── BotMessage.tsx     # Bot message component
+│       ├── ToolMessage.tsx    # Tool message component
+│       └── index.ts          # Component exports
 ├── features/          # Feature-specific components
 │   └── chat/          # Chat feature components
 │       ├── ChatControls.tsx    # Button controls for chat
@@ -25,6 +32,7 @@ src/
 │   ├── agent.tsx      # Chat agent store
 │   └── createStore.tsx # Store creation utility
 ├── utils/             # Utility functions
+│   ├── events.ts      # Event emitter
 │   └── ui-register.tsx # UI component registration
 └── main.tsx          # Application entry point
 ```

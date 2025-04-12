@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { MessageProps, UIId } from "@/store/agent";
-import { SystemUI, UserUI, BotUI, ToolUI } from "@/utils/ui-register";
+import { SystemMessage, UserMessage, BotMessage, ToolMessage } from "@/components/messages";
 
 /**
  * Type for message component renderer
@@ -39,7 +39,7 @@ class MessageRegistry {
   renderMessage(message: MessageProps): ReactNode {
     const Renderer = this.getRenderer(message.uiId);
     if (!Renderer) return null;
-    
+
     return <Renderer key={message.id} item={message} />;
   }
 
@@ -47,10 +47,10 @@ class MessageRegistry {
    * Initialize the registry with default renderers
    */
   initializeDefaults(): void {
-    this.register(UIId.system, SystemUI);
-    this.register(UIId.user, UserUI);
-    this.register(UIId.bot, BotUI);
-    this.register(UIId.tool, ToolUI);
+    this.register(UIId.system, SystemMessage);
+    this.register(UIId.user, UserMessage);
+    this.register(UIId.bot, BotMessage);
+    this.register(UIId.tool, ToolMessage);
   }
 }
 
