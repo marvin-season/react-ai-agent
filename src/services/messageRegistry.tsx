@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { MessageProps, UIId } from "@/store/agent";
-import { SystemMessage, UserMessage, BotMessage, ToolMessage } from "@/components/messages";
+import { SystemMessage, UserMessage, BotMessage, ToolMessage, ComputerMessage } from "@/components/messages";
 
 /**
  * Type for message component renderer
@@ -51,6 +51,7 @@ class MessageRegistry {
     this.register(UIId.user, UserMessage);
     this.register(UIId.bot, BotMessage);
     this.register(UIId.tool, ToolMessage);
+    this.register(UIId.computer, ComputerMessage);
   }
 }
 

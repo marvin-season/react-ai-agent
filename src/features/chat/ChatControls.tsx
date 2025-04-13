@@ -61,6 +61,14 @@ export const ChatControls: React.FC = () => {
     }, 10);
   };
 
+  const handleComputerClick = () => {
+    updateMessage({
+      content: "hello",
+      uiId: UIId.computer,
+      id: "27392189038218309",
+    });
+  }
+
   return (
     <div className="flex flex-wrap gap-2 p-4">
       <button
@@ -89,6 +97,13 @@ export const ChatControls: React.FC = () => {
         onClick={handleToolClick}
       >
         tool
+      </button>
+
+      <button
+        className="cursor-pointer bg-white border px-2 py-1 rounded hover:bg-slate-200"
+        onClick={handleComputerClick}
+      >
+        computer
       </button>
     </div>
   );

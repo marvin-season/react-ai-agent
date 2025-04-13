@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import createStore from './createStore';
 
 /**
@@ -9,6 +8,7 @@ export enum UIId {
   user,
   bot,
   tool,
+  computer,
 }
 
 /**
@@ -23,6 +23,7 @@ export interface MessageProps {
   uiId: UIId;
   /** Optional timestamp for the message */
   timestamp?: number;
+  title?: string;
 }
 
 /**
@@ -34,22 +35,10 @@ interface AgentProps {
 }
 
 /**
- * Map of UI components by type
- */
-export const UIMap = new Map<UIId, ({ item }: { item: MessageProps }) => ReactNode>();
-
-/**
  * Initial state for the agent store
  */
 export const Agent: AgentProps = {
-  messages: [
-    {
-      id: generateId(),
-      content: 'hi, what can i do for you today?',
-      uiId: UIId.system,
-      timestamp: Date.now(),
-    },
-  ],
+  messages: [],
 };
 
 /**
