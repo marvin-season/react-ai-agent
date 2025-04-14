@@ -1,6 +1,6 @@
 import React from "react";
 import { UIId, updateMessage } from "@/store/agent";
-import { EE } from "@/utils/events";
+import { EE, genrateEventName } from "@/utils/events";
 
 /**
  * Component for chat control buttons
@@ -62,11 +62,18 @@ export const ChatControls: React.FC = () => {
   };
 
   const handleComputerClick = () => {
-    updateMessage({
+    const id = Math.random().toString().slice(2);
+    const newMessage = {
       content: "hello",
       uiId: UIId.computer,
-      id: "27392189038218310",
-    });
+      id
+    }
+    updateMessage(newMessage);
+    setInterval(() => {
+      EE.emit(genrateEventName(newMessage), {
+        id
+      });
+    }, 1000);
   }
 
   return (
