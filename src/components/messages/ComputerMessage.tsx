@@ -1,7 +1,8 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, ReactNode, useEffect, useState } from 'react';
 import { MessageProps, UIId } from '@/store/agent';
 import { MessageBadge } from './MessageBadge';
 import { EE, genrateEventName } from '@/utils/events';
+import { randomColorHex } from '@/utils/common';
 
 /**
  * Props for the BotMessage component
@@ -13,21 +14,27 @@ interface ComputerMessageProps {
     };
 }
 
+type processType = () => ReactNode
+
+export const Process = memo(({ content }: { content: string }) => {
+    return <div style={{
+        color: randomColorHex()
+    }}>{content}</div>
+})
+
 /**
  * Computer message UI component
  */
 export const ComputerMessage = memo(({ item }: ComputerMessageProps) => {
     // process of computer handle
-    const [process, setProcess] = useState<number[]>([]);
+    const [processes, setProcesses] = useState<processType[]>([]);
     useEffect(() => {
         // Handler for tool events
-        const handler = (data: { id: string; str: string }) => {
+        const handler = (data: { process: processType }) => {
             console.log(data)
-            if (data.id === item.id) {
-                setProcess(prev => {
-                    return prev.concat([Date.now()])
-                })
-            }
+            setProcesses(prev => {
+                return prev.concat([data.process])
+            })
         };
         const event = genrateEventName(item)
         console.log('event', event)
@@ -51,8 +58,8 @@ export const ComputerMessage = memo(({ item }: ComputerMessageProps) => {
             </div>
             <div className="w-full max-w-[500px] max-h-36 break-words bg-white px-2 py-1 rounded-xl text-sm overflow-y-auto">
                 {
-                    process.map((item, index) => {
-                        return <div key={index}>{item}</div>
+                    processes.map((Processes, index) => {
+                        return <Processes key={index} />
                     })
                 }
             </div>

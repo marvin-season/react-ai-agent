@@ -1,7 +1,8 @@
 import React from "react";
 import { UIId, updateMessage } from "@/store/agent";
 import { EE, genrateEventName } from "@/utils/events";
-import { randomID } from "@/utils/common";
+import { randomColorHex, randomID, sleep } from "@/utils/common";
+import { Process } from "@/components/messages";
 
 /**
  * Component for chat control buttons
@@ -62,7 +63,7 @@ export const ChatControls: React.FC = () => {
     }, 10);
   };
 
-  const handleComputerClick = () => {
+  const handleComputerClick = async () => {
     const id = randomID();
     const newMessage = {
       content: "hello",
@@ -70,11 +71,14 @@ export const ChatControls: React.FC = () => {
       id
     }
     updateMessage(newMessage);
-    setInterval(() => {
+    const processes = ["读取文件", "读取成功", "开始解析", "解析完成", "处理中", "处理完成"]
+    for (const element of processes) {
+      await sleep(1000)
       EE.emit(genrateEventName(newMessage), {
-        id
+        process: () => <Process content={element} />
       });
-    }, 1000);
+    }
+
   }
 
   return (
