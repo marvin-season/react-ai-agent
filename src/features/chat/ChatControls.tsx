@@ -1,6 +1,7 @@
 import React from "react";
 import { UIId, updateMessage } from "@/store/agent";
 import { EE, genrateEventName } from "@/utils/events";
+import { randomID } from "@/utils/common";
 
 /**
  * Component for chat control buttons
@@ -13,7 +14,7 @@ export const ChatControls: React.FC = () => {
     updateMessage({
       content: " System Tips: click the btn!",
       uiId: UIId.system,
-      id: Math.random().toString().slice(2),
+      id: randomID(),
     });
   };
 
@@ -24,7 +25,7 @@ export const ChatControls: React.FC = () => {
     updateMessage({
       content: "hello, can i help you?",
       uiId: UIId.user,
-      id: Math.random().toString().slice(2),
+      id: randomID(),
     });
   };
 
@@ -43,7 +44,7 @@ export const ChatControls: React.FC = () => {
    * Handle tool message button click
    */
   const handleToolClick = () => {
-    const id = Math.random().toString().slice(2);
+    const id = randomID();
 
     // Add empty tool message
     updateMessage({
@@ -62,7 +63,7 @@ export const ChatControls: React.FC = () => {
   };
 
   const handleComputerClick = () => {
-    const id = Math.random().toString().slice(2);
+    const id = randomID();
     const newMessage = {
       content: "hello",
       uiId: UIId.computer,
