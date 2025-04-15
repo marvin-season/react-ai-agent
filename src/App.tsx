@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatInterface } from "@/features/chat";
+import { WorkflowProcessor } from "@/components/workflow";
 
 /**
  * Main application component
@@ -8,12 +8,12 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <header className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-800">Chat Application</h1>
-        <p className="text-gray-600">A well-structured React application</p>
+        <h1 className="text-2xl font-bold text-gray-800">AI Agent 工作流处理</h1>
+        <p className="text-gray-600">分步骤执行任务，支持权限控制和步骤回溯</p>
       </header>
 
       <main>
-        <ChatInterface />
+        <WorkflowProcessor autoGrantPermission={true} />
       </main>
     </div>
   );
