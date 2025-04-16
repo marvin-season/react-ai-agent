@@ -5,7 +5,7 @@ import { devtools } from 'zustand/middleware';
 /**
  * Enum for UI message types
  */
-export enum UIId {
+export enum MessageType {
   system,
   user,
   bot,
@@ -22,7 +22,7 @@ export interface MessageProps {
   /** Content of the message */
   content: string;
   /** Type of UI to render for this message */
-  uiId: UIId;
+  type: MessageType;
   /** Optional timestamp for the message */
   timestamp?: number;
   title?: string;
@@ -39,7 +39,7 @@ interface AgentState {
   updateMessage: (message: MessageProps) => void;
   
   /** Selectors */
-  getMessagesByType: (type: UIId) => MessageProps[];
+  getMessagesByType: (type: MessageType) => MessageProps[];
   getLatestMessage: () => MessageProps | null;
 }
 
@@ -74,8 +74,8 @@ export const useAgentStore = create<AgentState>()(
     },
     
     // Selectors
-    getMessagesByType: (type: UIId) => {
-      return get().messages.filter((message) => message.uiId === type);
+    getMessagesByType: (type: MessageType) => {
+      return get().messages.filter((message) => message.type === type);
     },
     
     getLatestMessage: () => {

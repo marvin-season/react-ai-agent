@@ -1,5 +1,5 @@
 import React from "react";
-import { UIId, useAgentStore } from "@/store/agentStore";
+import { MessageType, useAgentStore } from "@/store/agentStore";
 import { EE, genrateEventName } from "@/utils/events";
 import { randomColorHex, randomID, sleep } from "@/utils/common";
 import { Process } from "@/components/messages";
@@ -16,7 +16,7 @@ export const ChatControls: React.FC = () => {
   const handleSystemClick = () => {
     updateMessage({
       content: " System Tips: click the btn!",
-      uiId: UIId.system,
+      type: MessageType.system,
       id: randomID(),
     });
   };
@@ -27,7 +27,7 @@ export const ChatControls: React.FC = () => {
   const handleUserClick = () => {
     updateMessage({
       content: "hello, can i help you?",
-      uiId: UIId.user,
+      type: MessageType.user,
       id: randomID(),
     });
   };
@@ -38,7 +38,7 @@ export const ChatControls: React.FC = () => {
   const handleBotClick = () => {
     updateMessage({
       content: "hello",
-      uiId: UIId.bot,
+      type: MessageType.bot,
       id: "27392189038218309",
     });
   };
@@ -52,7 +52,7 @@ export const ChatControls: React.FC = () => {
     // Add empty tool message
     updateMessage({
       content: "",
-      uiId: UIId.tool,
+      type: MessageType.tool,
       id,
     });
 
@@ -69,7 +69,7 @@ export const ChatControls: React.FC = () => {
     const id = randomID();
     const newMessage = {
       content: "hello",
-      uiId: UIId.computer,
+      type: MessageType.computer,
       id
     }
     updateMessage(newMessage);

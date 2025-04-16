@@ -7,5 +7,5 @@ import { EventEmitter } from 'eventemitter3';
 export const EE = new EventEmitter();
 
 export function genrateEventName(message: MessageProps){
-    return 'event_' + message.id + message.uiId
+    return 'event_' + message.id + message.type
 }

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { MessageProps, UIId } from "@/store/agentStore";
+import { MessageProps, MessageType } from "@/store/agentStore";
 import { SystemMessage, UserMessage, BotMessage, ToolMessage, ComputerMessage } from "@/components/messages";
 
 /**
@@ -11,24 +11,24 @@ type MessageRenderer = React.FC<{ item: MessageProps }>;
  * Registry of message renderers by UI type
  */
 class MessageRegistry {
-  private registry = new Map<UIId, MessageRenderer>();
+  private registry = new Map<MessageType, MessageRenderer>();
 
   /**
    * Register a message renderer for a UI type
-   * @param uiId UI type identifier
+   * @param type UI type identifier
    * @param renderer Component to render this message type
    */
-  register(uiId: UIId, renderer: MessageRenderer): void {
-    this.registry.set(uiId, renderer);
+  register(type: MessageType, renderer: MessageRenderer): void {
+    this.registry.set(type, renderer);
   }
 
   /**
    * Get a message renderer for a UI type
-   * @param uiId UI type identifier
+   * @param type UI type identifier
    * @returns The registered renderer or undefined if not found
    */
-  getRenderer(uiId: UIId): MessageRenderer | undefined {
-    return this.registry.get(uiId);
+  getRenderer(type: MessageType): MessageRenderer | undefined {
+    return this.registry.get(type);
   }
 
   /**
@@ -37,7 +37,7 @@ class MessageRegistry {
    * @returns Rendered component or null if no renderer found
    */
   renderMessage(message: MessageProps): ReactNode {
-    const Renderer = this.getRenderer(message.uiId);
+    const Renderer = this.getRenderer(message.type);
     if (!Renderer) return null;
 
     return <Renderer key={message.id} item={message} />;
@@ -47,11 +47,11 @@ class MessageRegistry {
    * Initialize the registry with default renderers
    */
   initializeDefaults(): void {
-    this.register(UIId.system, SystemMessage);
-    this.register(UIId.user, UserMessage);
-    this.register(UIId.bot, BotMessage);
-    this.register(UIId.tool, ToolMessage);
-    this.register(UIId.computer, ComputerMessage);
+    this.register(MessageType.system, SystemMessage);
+    this.register(MessageType.user, UserMessage);
+    this.register(MessageType.bot, BotMessage);
+    this.register(MessageType.tool, ToolMessage);
+    this.register(MessageType.computer, ComputerMessage);
   }
 }
 
