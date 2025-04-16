@@ -9,7 +9,7 @@ import { Process } from "@/components/messages";
  */
 export const ChatControls: React.FC = () => {
   // Get the updateMessage action from the store
-  const { updateMessage } = useAgentStore();
+  const updateMessage = useAgentStore(state => state.updateMessage);
   /**
    * Handle system message button click
    */

@@ -7,12 +7,12 @@ import { messageRegistry } from "@/services/messageRegistry";
  */
 export const MessageList: React.FC = () => {
   // Get messages from store
-  const store = useAgentStore();
+  const messages = useAgentStore(state => state.messages);
 
   // Memoize the rendered messages to prevent unnecessary re-renders
   const renderedMessages = useMemo(() => {
-    return store.messages.map((message) => messageRegistry.renderMessage(message));
-  }, [store.messages]);
+    return messages.map((message) => messageRegistry.renderMessage(message));
+  }, [messages]);
 
   return (
     <div className="flex flex-col gap-3 p-4">
