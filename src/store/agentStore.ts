@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { devtools } from 'zustand/middleware';
 
 /**
  * Enum for UI message types
@@ -46,7 +47,7 @@ interface AgentState {
  * Create the agent store with Zustand
  */
 export const useAgentStore = create<AgentState>()(
-  immer((set, get) => ({
+  devtools(immer((set, get) => ({
     // Initial state
     messages: [],
     
@@ -81,7 +82,7 @@ export const useAgentStore = create<AgentState>()(
       const { messages } = get();
       return messages.length > 0 ? messages[messages.length - 1] : null;
     },
-  }))
+  })), { name: 'agentStore' })
 );
 
 /**

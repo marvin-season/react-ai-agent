@@ -1,5 +1,4 @@
 import React from "react";
-import { WorkflowProcessor } from "@/components/workflow";
 import { ChatInterface } from "./features/chat";
 
 /**

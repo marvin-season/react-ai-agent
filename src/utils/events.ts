@@ -1,4 +1,4 @@
-import { MessageProps } from '@/store/agent';
+import { MessageProps } from '@/store/agentStore';
 import { EventEmitter } from 'eventemitter3';
 
 /**
