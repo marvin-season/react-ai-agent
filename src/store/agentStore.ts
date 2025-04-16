@@ -37,6 +37,7 @@ interface AgentState {
   
   /** Actions */
   updateMessage: (message: MessageProps) => void;
+  initializeMessages: (messages: MessageProps[]) => void;
   
   /** Selectors */
   getMessagesByType: (type: MessageType) => MessageProps[];
@@ -73,6 +74,12 @@ export const useAgentStore = create<AgentState>()(
       });
     },
     
+    initializeMessages: (messages: MessageProps[]) => {
+      set((state) => {
+        state.messages = messages;
+      });
+    },
+
     // Selectors
     getMessagesByType: (type: MessageType) => {
       return get().messages.filter((message) => message.type === type);
