@@ -1,17 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  useWorkflowStore,
-  initializeWorkflow,
-  moveToNextStep,
-  navigateToStep,
-  grantStepPermission,
-  denyStepPermission,
-  requestStepPermission,
-  toggleAskForPermission,
-  toggleAutoAdvance,
-  StepStatus,
-  failCurrentStep
-} from '@/store/workflow';
+import { useWorkflowStore, StepStatus } from '@/store/workflowStore';
 import { StepIndicator } from './StepIndicator';
 import { StepContent } from './StepContent';
 import { StepDetail } from './StepDetail';
@@ -32,8 +20,22 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
   showSettings = true,
   autoGrantPermission = false
 }) => {
-  // Get workflow state
-  const workflow = useWorkflowStore();
+  // Get workflow state and actions
+  const {
+    steps,
+    currentStepIndex,
+    autoAdvance,
+    askForPermission,
+    isCompleted,
+    initializeWorkflow,
+    moveToNextStep,
+    navigateToStep,
+    requestStepPermission,
+    grantStepPermission,
+    denyStepPermission,
+    toggleAutoAdvance,
+    toggleAskForPermission
+  } = useWorkflowStore();
   const [isInitialized, setIsInitialized] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [stepDetails, setStepDetails] = useState<Record<number, string[]>>({});
@@ -43,15 +45,15 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
 
   // Initialize workflow with steps
   useEffect(() => {
-    if (!isInitialized && workflow.steps.length === 0) {
+    if (!isInitialized && steps.length === 0) {
       initializeWorkflow(mockWorkflowSteps);
       setIsInitialized(true);
     }
-  }, [isInitialized, workflow.steps.length]);
+  }, [isInitialized, steps.length, initializeWorkflow]);
 
   // Start processing workflow when initialized
   useEffect(() => {
-    if (isInitialized && !isProcessing && workflow.steps.length > 0) {
+    if (isInitialized && !isProcessing && steps.length > 0) {
       startWorkflowProcessing();
     }
 
@@ -61,7 +63,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
         cancelStreamRef.current();
       }
     };
-  }, [isInitialized, isProcessing, workflow.steps.length]);
+  }, [isInitialized, isProcessing, steps.length]);
 
   // Handle workflow stream events
   const handleWorkflowEvent = (event: WorkflowStreamEvent) => {
@@ -84,7 +86,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
           });
 
           // If step is complete (progress 100%), move to next step
-          if (event.progress === 100 && workflow.currentStepIndex === event.stepIndex) {
+          if (event.progress === 100 && currentStepIndex === event.stepIndex) {
             setTimeout(() => moveToNextStep(), 1000);
           }
         }
@@ -123,10 +125,10 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
 
   // Handle next step
   const handleNextStep = () => {
-    const currentStep = workflow.steps[workflow.currentStepIndex];
+    const step = steps[currentStepIndex];
 
     // Check if step requires permission
-    if (currentStep.requiresPermission && workflow.askForPermission && !currentStep.permissionGranted) {
+    if (step.requiresPermission && askForPermission && !step.permissionGranted) {
       requestStepPermission();
     } else {
       moveToNextStep();
@@ -134,7 +136,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
   };
 
   // Get current step
-  const currentStep = workflow.steps[workflow.currentStepIndex] || null;
+  const currentStep = steps[currentStepIndex] || null;
 
   // Render step content with details
   const renderStepContent = (stepIndex: number) => {
@@ -172,7 +174,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
                   id="auto-advance"
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  checked={workflow.autoAdvance}
+                  checked={autoAdvance}
                   onChange={toggleAutoAdvance}
                 />
                 <label htmlFor="auto-advance" className="ml-2 block text-sm text-gray-900">
@@ -184,7 +186,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
                   id="ask-permission"
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  checked={workflow.askForPermission}
+                  checked={askForPermission}
                   onChange={toggleAskForPermission}
                 />
                 <label htmlFor="ask-permission" className="ml-2 block text-sm text-gray-900">
@@ -198,8 +200,8 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
 
       {/* Step Indicator */}
       <StepIndicator
-        steps={workflow.steps}
-        currentStepIndex={workflow.currentStepIndex}
+        steps={steps}
+        currentStepIndex={currentStepIndex}
         onStepClick={handleStepClick}
       />
 
@@ -210,11 +212,11 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
         onDenyPermission={denyStepPermission}
         onNextStep={handleNextStep}
       >
-        {renderStepContent(workflow.currentStepIndex)}
+        {renderStepContent(currentStepIndex)}
       </StepContent>
 
       {/* Workflow Completion */}
-      {workflow.isCompleted && (
+      {isCompleted && (
         <div className="mt-6 bg-green-50 border border-green-200 rounded-md p-4">
           <div className="flex">
             <div className="flex-shrink-0">
@@ -235,7 +237,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
       )}
 
       {/* Restart Button */}
-      {workflow.isCompleted && (
+      {isCompleted && (
         <div className="mt-4 flex justify-center">
           <button
             onClick={() => {

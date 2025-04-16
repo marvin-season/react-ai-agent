@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { WorkflowStep } from '@/store/workflow';
+import { WorkflowStep } from '@/store/workflowStore';
 
 interface PermissionRequestProps {
   step: WorkflowStep;

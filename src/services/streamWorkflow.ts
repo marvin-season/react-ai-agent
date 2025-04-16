@@ -1,5 +1,5 @@
 import { sleep } from '@/utils/common';
-import { WorkflowStep } from '@/store/workflow';
+import { WorkflowStep } from '@/store/workflowStore';
 
 /**
  * Interface for step update event

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { WorkflowStep, StepStatus } from '@/store/workflow';
+import { WorkflowStep, StepStatus } from '@/store/workflowStore';
 
 interface StepIndicatorProps {
   steps: WorkflowStep[];
@@ -7,14 +7,14 @@ interface StepIndicatorProps {
   onStepClick: (index: number) => void;
 }
 
-export const StepIndicator: React.FC<StepIndicatorProps> = memo(({ 
-  steps, 
+export const StepIndicator: React.FC<StepIndicatorProps> = memo(({
+  steps,
   currentStepIndex,
   onStepClick
 }) => {
   // Calculate progress percentage
-  const progressPercentage = steps.length > 0 
-    ? ((currentStepIndex) / (steps.length - 1)) * 100 
+  const progressPercentage = steps.length > 0
+    ? ((currentStepIndex) / (steps.length - 1)) * 100
     : 0;
 
   return (
@@ -34,8 +34,8 @@ export const StepIndicator: React.FC<StepIndicatorProps> = memo(({
           </div>
         </div>
         <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-          <div 
-            style={{ width: `${progressPercentage}%` }} 
+          <div
+            style={{ width: `${progressPercentage}%` }}
             className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"
           ></div>
         </div>
@@ -49,12 +49,12 @@ export const StepIndicator: React.FC<StepIndicatorProps> = memo(({
           const isCompleted = step.status === StepStatus.COMPLETED;
           const isWaitingPermission = step.status === StepStatus.WAITING_PERMISSION;
           const isFailed = step.status === StepStatus.FAILED;
-          
+
           // Base styles
           let stepClasses = "flex flex-col items-center cursor-pointer";
           let circleClasses = "flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold transition-all duration-300";
           let lineClasses = "flex-1 h-1 mx-2";
-          
+
           // Status-specific styles
           if (isActive) {
             circleClasses += " bg-blue-500 text-white ring-4 ring-blue-200";
@@ -67,7 +67,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = memo(({
           } else {
             circleClasses += " bg-gray-300 text-gray-700";
           }
-          
+
           // Only allow clicking on completed steps or current step
           const isClickable = index <= currentStepIndex;
           if (!isClickable) {
@@ -76,7 +76,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = memo(({
 
           return (
             <div key={step.id} className="flex flex-col items-center flex-1">
-              <div 
+              <div
                 className={stepClasses}
                 onClick={() => isClickable && onStepClick(index)}
               >

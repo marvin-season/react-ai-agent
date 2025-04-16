@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useAgentStore } from "@/store/agent";
+import { useAgentStore } from "@/store/agentStore";
 import { messageRegistry } from "@/services/messageRegistry";
 
 /**
@@ -13,7 +13,7 @@ export const MessageList: React.FC = () => {
   const renderedMessages = useMemo(() => {
     return store.messages.map((message) => messageRegistry.renderMessage(message));
   }, [store.messages]);
-  
+
   return (
     <div className="flex flex-col gap-3 p-4">
       {renderedMessages}

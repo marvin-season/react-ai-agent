@@ -1,5 +1,5 @@
 import React from "react";
-import { UIId, updateMessage } from "@/store/agent";
+import { UIId, useAgentStore } from "@/store/agentStore";
 import { EE, genrateEventName } from "@/utils/events";
 import { randomColorHex, randomID, sleep } from "@/utils/common";
 import { Process } from "@/components/messages";
@@ -8,6 +8,8 @@ import { Process } from "@/components/messages";
  * Component for chat control buttons
  */
 export const ChatControls: React.FC = () => {
+  // Get the updateMessage action from the store
+  const { updateMessage } = useAgentStore();
   /**
    * Handle system message button click
    */

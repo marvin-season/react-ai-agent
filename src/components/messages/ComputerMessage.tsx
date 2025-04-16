@@ -1,5 +1,5 @@
 import React, { memo, ReactNode, useEffect, useState } from 'react';
-import { MessageProps, UIId } from '@/store/agent';
+import { MessageProps, UIId } from '@/store/agentStore';
 import { MessageBadge } from './MessageBadge';
 import { EE, genrateEventName } from '@/utils/events';
 import { randomColorHex } from '@/utils/common';

@@ -1,5 +1,5 @@
 import React, { memo, ReactNode } from 'react';
-import { WorkflowStep, StepStatus } from '@/store/workflow';
+import { WorkflowStep, StepStatus } from '@/store/workflowStore';
 import { PermissionRequest } from './PermissionRequest';
 
 interface StepContentProps {
@@ -22,13 +22,13 @@ export const StepContent: React.FC<StepContentProps> = memo(({
     switch (step.status) {
       case StepStatus.WAITING_PERMISSION:
         return (
-          <PermissionRequest 
-            step={step} 
-            onGrant={onGrantPermission} 
-            onDeny={onDenyPermission} 
+          <PermissionRequest
+            step={step}
+            onGrant={onGrantPermission}
+            onDeny={onDenyPermission}
           />
         );
-      
+
       case StepStatus.FAILED:
         return (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
@@ -49,7 +49,7 @@ export const StepContent: React.FC<StepContentProps> = memo(({
             </div>
           </div>
         );
-      
+
       case StepStatus.COMPLETED:
         return (
           <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
@@ -70,7 +70,7 @@ export const StepContent: React.FC<StepContentProps> = memo(({
             </div>
           </div>
         );
-      
+
       case StepStatus.IN_PROGRESS:
       default:
         return (

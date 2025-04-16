@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { MessageProps } from '@/store/agent';
+import { MessageProps } from '@/store/agentStore';
 import { MessageBadge } from './MessageBadge';
 import { EE } from '@/utils/events';
 

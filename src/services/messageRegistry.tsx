@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { MessageProps, UIId } from "@/store/agent";
+import { MessageProps, UIId } from "@/store/agentStore";
 import { SystemMessage, UserMessage, BotMessage, ToolMessage, ComputerMessage } from "@/components/messages";
 
 /**

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { MessageProps } from '@/store/agent';
+import { MessageProps } from '@/store/agentStore';
 import { MessageBadge } from './MessageBadge';
 
 /**
