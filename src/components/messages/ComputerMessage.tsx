@@ -1,12 +1,8 @@
 import React, { memo, ReactNode, useEffect, useState } from 'react';
 import { randomColorHex } from '@/utils/common';
-import withProcessFlow, { BaseMessageComponentProps } from '@/enhancer/withProcessFlow';
+import withProcessFlow from '@/enhancer/withProcessFlow';
+import { BaseMessageProps } from '@/types';
 
-/**
- * Props for the BotMessage component
- */
-
-type processType = () => ReactNode
 
 export const Process = memo(({ content }: { content: string }) => {
     return <div style={{
@@ -17,7 +13,7 @@ export const Process = memo(({ content }: { content: string }) => {
 /**
  * Computer message UI component
  */
-export const ComputerMessage = memo<BaseMessageComponentProps>(({ message }) => {
+export const ComputerMessage = memo<BaseMessageProps>(({ message }) => {
     return <div className='flex gap-2 items-center'>
         <span className='text-lg font-bold'>Computer</span>
         {message.timestamp && (

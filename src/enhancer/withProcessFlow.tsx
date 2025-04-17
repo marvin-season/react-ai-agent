@@ -1,20 +1,20 @@
 import { IMessageProps } from "@/store/agentStore";
-import { randomColorHex } from "@/utils/common";
+import { BaseMessageProps } from "@/types";
 import { EE, genrateEventName } from "@/utils/events";
 import { ComponentType, FC, FunctionComponent, memo, ReactNode, useEffect, useState } from "react"
 
-export interface BaseMessageComponentProps {
-    /** Message data */
-    message: IMessageProps & {
-        event?: string
-    };
-}
+// export interface BaseMessageComponentProps {
+//     /** Message data */
+//     message: IMessageProps & {
+//         event?: string
+//     };
+// }
 
 
 type processType = () => ReactNode
 
 
-export const ProcessFlow: FC<BaseMessageComponentProps> = ({ message }) => {
+export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
     const [processes, setProcesses] = useState<processType[]>([]);
 
     useEffect(() => {
