@@ -1,6 +1,5 @@
-import React, { memo, ReactNode, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { randomColorHex } from '@/utils/common';
-import withProcessFlow from '@/enhancer/withProcessFlow';
 import { BaseMessageProps } from '@/types';
 
 
@@ -23,4 +22,3 @@ export const ComputerMessage = memo<BaseMessageProps>(({ message }) => {
         )}
     </div>
 })
-export const BaseComputerMessage = withProcessFlow(ComputerMessage)
