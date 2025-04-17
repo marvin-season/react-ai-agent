@@ -17,12 +17,12 @@ export const Process = memo(({ content }: { content: string }) => {
 /**
  * Computer message UI component
  */
-export const ComputerMessage = memo<BaseMessageComponentProps>(({ item }) => {
+export const ComputerMessage = memo<BaseMessageComponentProps>(({ message }) => {
     return <div className='flex gap-2 items-center'>
         <span className='text-lg font-bold'>Computer</span>
-        {item.timestamp && (
+        {message.timestamp && (
             <span className="text-xs text-gray-600">
-                {new Date(item.timestamp).toLocaleTimeString()}
+                {new Date(message.timestamp).toLocaleTimeString()}
             </span>
         )}
     </div>

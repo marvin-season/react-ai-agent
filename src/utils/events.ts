@@ -1,4 +1,4 @@
-import { MessageProps } from '@/store/agentStore';
+import { IMessageProps } from '@/store/agentStore';
 import { EventEmitter } from 'eventemitter3';
 
 /**
@@ -6,6 +6,6 @@ import { EventEmitter } from 'eventemitter3';
  */
 export const EE = new EventEmitter();
 
-export function genrateEventName(message: MessageProps){
+export function genrateEventName(message: IMessageProps){
     return 'event_' + message.id + message.type
 }

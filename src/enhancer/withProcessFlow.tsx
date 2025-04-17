@@ -1,11 +1,11 @@
-import { MessageProps } from "@/store/agentStore";
+import { IMessageProps } from "@/store/agentStore";
 import { randomColorHex } from "@/utils/common";
 import { EE, genrateEventName } from "@/utils/events";
 import { ComponentType, FC, FunctionComponent, memo, ReactNode, useEffect, useState } from "react"
 
 export interface BaseMessageComponentProps {
     /** Message data */
-    item: MessageProps & {
+    message: IMessageProps & {
         event?: string
     };
 }
@@ -14,7 +14,7 @@ export interface BaseMessageComponentProps {
 type processType = () => ReactNode
 
 
-export const ProcessFlow: FC<BaseMessageComponentProps> = ({ item }) => {
+export const ProcessFlow: FC<BaseMessageComponentProps> = ({ message }) => {
     const [processes, setProcesses] = useState<processType[]>([]);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export const ProcessFlow: FC<BaseMessageComponentProps> = ({ item }) => {
                 return prev.concat([data.process])
             })
         };
-        const event = genrateEventName(item)
+        const event = genrateEventName(message)
         console.log('event', event)
         // Subscribe to tool events
         EE.on(event, handler);
@@ -34,7 +34,7 @@ export const ProcessFlow: FC<BaseMessageComponentProps> = ({ item }) => {
         return () => {
             EE.off(event, handler);
         };
-    }, [item.id]);
+    }, [message.id]);
     return <div className="w-full max-w-[500px] max-h-36 break-words bg-white px-2 py-1 rounded-xl text-sm overflow-y-auto">
         {
             processes.map((Processes, index) => {
@@ -44,13 +44,13 @@ export const ProcessFlow: FC<BaseMessageComponentProps> = ({ item }) => {
     </div>
 }
 
-const withProcessFlow = <P extends object & { item: MessageProps }>(BaseComponent: ComponentType<P>) => {
+const withProcessFlow = <P extends object & { message: IMessageProps }>(BaseComponent: ComponentType<P>) => {
     return (props: P) => {
 
         return (
             <>
                 <BaseComponent {...props} />
-                <ProcessFlow item={props.item} />
+                <ProcessFlow message={props.message} />
 
             </>
         )

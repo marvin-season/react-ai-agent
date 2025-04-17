@@ -1,26 +1,26 @@
 import React, { memo, useState, useEffect } from 'react';
-import { MessageProps } from '@/store/agentStore';
+import { IMessageProps } from '@/store/agentStore';
 import { MessageBadge } from './MessageBadge';
 import { EE } from '@/utils/events';
+import { BaseMessageProps } from '@/types';
 
 /**
  * Props for the ToolMessage component
  */
-interface ToolMessageProps {
-  /** Message data */
-  item: MessageProps;
+interface ToolMessageProps extends BaseMessageProps{
+
 }
 
 /**
  * Tool message UI component with streaming content
  */
-export const ToolMessage = memo(({ item }: ToolMessageProps) => {
-  const [content, setContent] = useState(item.content || '');
+export const ToolMessage = memo(({ message }: ToolMessageProps) => {
+  const [content, setContent] = useState(message.content || '');
 
   useEffect(() => {
     // Handler for tool events
     const handler = (data: { id: string; str: string }) => {
-      if (data.id === item.id) {
+      if (data.id === message.id) {
         setContent(prev => prev + data.str);
       }
     };
@@ -32,16 +32,16 @@ export const ToolMessage = memo(({ item }: ToolMessageProps) => {
     return () => {
       EE.off('tool', handler);
     };
-  }, [item.id]);
+  }, [message.id]);
 
   return (
     <div className="bg-gray-300 border rounded-md p-4 flex flex-col gap-2">
       <div className="flex gap-2 items-center">
         <MessageBadge label="tool" />
-        <MessageBadge label={item.id} bgColor="bg-blue-300" textColor="text-white" />
-        {item.timestamp && (
+        <MessageBadge label={message.id} bgColor="bg-blue-300" textColor="text-white" />
+        {message.timestamp && (
           <span className="text-xs text-gray-600">
-            {new Date(item.timestamp).toLocaleTimeString()}
+            {new Date(message.timestamp).toLocaleTimeString()}
           </span>
         )}
       </div>

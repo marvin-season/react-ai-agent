@@ -1,11 +1,12 @@
 import React, { ReactNode } from "react";
-import { MessageProps, MessageType } from "@/store/agentStore";
+import { IMessageProps, MessageType } from "@/store/agentStore";
 import { SystemMessage, UserMessage, BotMessage, ToolMessage, BaseComputerMessage } from "@/components/messages";
+import { BaseMessageProps } from "@/types";
 
 /**
  * Type for message component renderer
  */
-type MessageRenderer = React.FC<{ item: MessageProps }>;
+type MessageRenderer = React.FC<BaseMessageProps>;
 
 /**
  * Registry of message renderers by UI type
@@ -36,11 +37,11 @@ class MessageRegistry {
    * @param message Message to render
    * @returns Rendered component or null if no renderer found
    */
-  renderMessage(message: MessageProps): ReactNode {
+  renderMessage(message: IMessageProps): ReactNode {
     const Renderer = this.getRenderer(message.type);
     if (!Renderer) return null;
 
-    return <Renderer key={message.id} item={message} />;
+    return <Renderer key={message.id} message={message} />;
   }
 
   /**

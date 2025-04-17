@@ -16,7 +16,7 @@ export enum MessageType {
 /**
  * Interface for message properties
  */
-export interface MessageProps {
+export interface IMessageProps {
   /** Unique identifier for the message */
   id: string;
   /** Content of the message */
@@ -33,15 +33,15 @@ export interface MessageProps {
  */
 interface AgentState {
   /** Array of messages */
-  messages: MessageProps[];
+  messages: IMessageProps[];
   
   /** Actions */
-  updateMessage: (message: MessageProps) => void;
-  initializeMessages: (messages: MessageProps[]) => void;
+  updateMessage: (message: IMessageProps) => void;
+  initializeMessages: (messages: IMessageProps[]) => void;
   
   /** Selectors */
-  getMessagesByType: (type: MessageType) => MessageProps[];
-  getLatestMessage: () => MessageProps | null;
+  getMessagesByType: (type: MessageType) => IMessageProps[];
+  getLatestMessage: () => IMessageProps | null;
 }
 
 /**
@@ -53,7 +53,7 @@ export const useAgentStore = create<AgentState>()(
     messages: [],
     
     // Actions
-    updateMessage: (message: MessageProps) => {
+    updateMessage: (message: IMessageProps) => {
       set((state) => {
         const existedIndex = state.messages.findIndex((item) => item.id === message.id);
         
@@ -74,7 +74,7 @@ export const useAgentStore = create<AgentState>()(
       });
     },
     
-    initializeMessages: (messages: MessageProps[]) => {
+    initializeMessages: (messages: IMessageProps[]) => {
       set((state) => {
         state.messages = messages;
       });

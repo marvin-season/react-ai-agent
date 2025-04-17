@@ -1,27 +1,26 @@
 import React, { memo } from 'react';
-import { MessageProps } from '@/store/agentStore';
+import { IMessageProps } from '@/store/agentStore';
 import { MessageBadge } from './MessageBadge';
+import { BaseMessageProps } from '@/types';
 
 /**
  * Props for the BotMessage component
  */
-interface BotMessageProps {
-  /** Message data */
-  item: MessageProps;
+interface BotMessageProps extends BaseMessageProps {
 }
 
 /**
  * Bot message UI component
  */
-export const BotMessage = memo(({ item }: BotMessageProps) => {
+export const BotMessage = memo(({ message }: BotMessageProps) => {
   return (
     <div className="bg-gray-100 rounded-md p-2 flex gap-2 items-center">
       <MessageBadge label="bot" />
-      <MessageBadge label={item.id} bgColor="bg-blue-300" textColor="text-white" />
-      <MessageBadge label={item.content} bgColor="bg-green-500" textColor="text-white" />
-      {item.timestamp && (
+      <MessageBadge label={message.id} bgColor="bg-blue-300" textColor="text-white" />
+      <MessageBadge label={message.content} bgColor="bg-green-500" textColor="text-white" />
+      {message.timestamp && (
         <span className="text-xs text-gray-600">
-          {new Date(item.timestamp).toLocaleTimeString()}
+          {new Date(message.timestamp).toLocaleTimeString()}
         </span>
       )}
     </div>
