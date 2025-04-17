@@ -1,9 +1,10 @@
 import withProcessFlow from "@/enhancer/withProcessFlow";
 import { MessageType, useAgentStore } from "@/store/agentStore";
+import { memo } from "react";
 
-const ComputerProcessMessage = withProcessFlow(() => <></>)
+const ComputerProcessMessage = memo(withProcessFlow(() => <></>));
 
-export default function Computer() {
+function Computer() {
     const messages = useAgentStore(state => state.messages)
     return <div className="flex flex-col gap-2 w-full max-w-4xl mx-auto">
         {
@@ -14,3 +15,4 @@ export default function Computer() {
 
     </div>
 }
+export default memo(Computer)
