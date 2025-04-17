@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatInterface } from "./features/chat";
+import { AgentPanel } from "./features/agent";
 
 /**
  * Main application component
@@ -13,7 +13,7 @@ const App: React.FC = () => {
       </header>
 
       <main>
-        <ChatInterface/>
+        <AgentPanel/>
         {/* <WorkflowProcessor autoGrantPermission={true} /> */}
       </main>
     </div>

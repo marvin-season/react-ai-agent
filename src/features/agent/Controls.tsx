@@ -1,13 +1,13 @@
 import React from "react";
 import { MessageType, useAgentStore } from "@/store/agentStore";
 import { EE, genrateEventName } from "@/utils/events";
-import { randomColorHex, randomID, sleep } from "@/utils/common";
+import { randomID, sleep } from "@/utils/common";
 import { Process } from "@/components/messages";
 
 /**
  * Component for chat control buttons
  */
-export const ChatControls: React.FC = () => {
+export const Controls: React.FC = () => {
   // Get the updateMessage action from the store
   const updateMessage = useAgentStore(state => state.updateMessage);
   /**

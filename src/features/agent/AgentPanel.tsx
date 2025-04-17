@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { ChatControls } from "./ChatControls";
+import { Controls } from "./Controls";
 import { MessageList } from "./MessageList";
 import { MessageType, useAgentStore } from "@/store/agentStore";
+import Computer from "./Computer";
 
 /**
  * Main chat interface component
  */
-export const ChatInterface: React.FC = () => {
+export const AgentPanel: React.FC = () => {
   const initializeMessages = useAgentStore(state => state.initializeMessages)
   useEffect(() => {
     console.log('init')
@@ -25,8 +26,11 @@ export const ChatInterface: React.FC = () => {
   }, [])
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto">
-      <ChatControls />
-      <MessageList />
+      <Controls />
+      <div className="flex gap-2">
+        <MessageList />
+        <Computer />
+      </div>
     </div>
   );
 };
