@@ -3,14 +3,6 @@ import { BaseMessageProps } from "@/types";
 import { EE, genrateEventName } from "@/utils/events";
 import { ComponentType, FC, FunctionComponent, memo, ReactNode, useEffect, useState } from "react"
 
-// export interface BaseMessageComponentProps {
-//     /** Message data */
-//     message: IMessageProps & {
-//         event?: string
-//     };
-// }
-
-
 type processType = () => ReactNode
 
 
