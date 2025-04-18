@@ -20,7 +20,7 @@ class ProcessRegistry {
   }
 
   initializeDefaults(): void {
-    this.register(ProcessType.tool, ToolProcess);
+    this.register(ProcessType.tool, ToolProcess as FC<ProcessProps>);
   }
 }
 
