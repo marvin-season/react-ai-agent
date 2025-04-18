@@ -1,4 +1,4 @@
-import { Process, ProcessProps, ProcessStatus } from "@/components/process";
+import { ProcessProps, ProcessStatus, ProcessType } from "@/components/process";
 import { AgentState, IMessageProps, MessageType } from "@/store/agentStore";
 import { randomID, sleep } from "@/utils/common";
 import { EE, genrateEventName } from "@/utils/events";
@@ -41,6 +41,7 @@ function* generateComputerMessage(input: string) {
           id,
           content: element.slice(1, -1),
           status: status[index++ % status.length],
+          type: ProcessType.tool
         } satisfies ProcessProps;
       }
     }

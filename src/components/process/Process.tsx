@@ -7,10 +7,15 @@ export enum ProcessStatus {
   processing = "processing",
   completed = "completed",
 }
+
+export enum ProcessType {
+  tool = 'tool'
+}
 export interface ProcessProps {
   id: number;
   status: ProcessStatus;
   content: string;
+  type: ProcessType
 }
 
 const icons = {

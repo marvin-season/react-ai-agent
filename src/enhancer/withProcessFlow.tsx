@@ -5,8 +5,6 @@ import { EE, genrateEventName } from "@/utils/events";
 import { ComponentType, FC, ReactNode, useEffect, useState } from "react";
 import { useImmer } from "use-immer";
 
-type processType = () => ReactNode;
-
 export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
   const [processes, setProcesses] = useImmer<ProcessProps[]>([]);
 
@@ -36,6 +34,8 @@ export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
       EE.off(event, handler);
     };
   }, [message.id, setProcesses]);
+  if (processes.length === 0) return null;
+
   return (
     <div className="w-full break-words bg-white border p-4 rounded-xl text-sm overflow-y-auto">
       {processes.map((props, index) => {
