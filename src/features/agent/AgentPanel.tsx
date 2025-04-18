@@ -8,22 +8,22 @@ import Computer from "./Computer";
  * Main chat interface component
  */
 export const AgentPanel: React.FC = () => {
-  const initializeMessages = useAgentStore(state => state.initializeMessages)
+  const initializeMessages = useAgentStore((state) => state.initializeMessages);
   useEffect(() => {
-    console.log('init')
+    console.log("init");
     initializeMessages([
       {
-        content: ' System Tips: click the btn!',
+        content: " System Tips: click the btn!",
         type: MessageType.system,
-        id: 'otyl4xqgjoe',
-        timestamp: 1744789231918
-      }
-    ])
+        id: "otyl4xqgjoe",
+        timestamp: 1744789231918,
+      },
+    ]);
     return () => {
-      console.log('clean')
-      initializeMessages([])
-    }
-  }, [])
+      console.log("clean");
+      initializeMessages([]);
+    };
+  }, []);
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto">
       <Controls />

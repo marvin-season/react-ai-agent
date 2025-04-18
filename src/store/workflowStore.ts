@@ -1,16 +1,16 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { randomID } from '@/utils/common';
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { randomID } from "@/utils/common";
 
 /**
  * Enum for step status
  */
 export enum StepStatus {
-  PENDING = 'pending',
-  IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  WAITING_PERMISSION = 'waiting_permission',
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  COMPLETED = "completed",
+  FAILED = "failed",
+  WAITING_PERMISSION = "waiting_permission",
 }
 
 /**
@@ -51,9 +51,9 @@ interface WorkflowState {
   askForPermission: boolean;
   /** Whether the workflow is completed */
   isCompleted: boolean;
-  
+
   /** Actions */
-  initializeWorkflow: (steps: Omit<WorkflowStep, 'id' | 'status'>[]) => void;
+  initializeWorkflow: (steps: Omit<WorkflowStep, "id" | "status">[]) => void;
   moveToNextStep: () => void;
   navigateToStep: (stepIndex: number) => void;
   requestStepPermission: () => void;
@@ -83,20 +83,20 @@ export const useWorkflowStore = create<WorkflowState>()(
   immer((set, get) => ({
     // Initial state
     ...initialState,
-    
+
     // Actions
     initializeWorkflow: (steps) => {
       set((state) => {
-        const workflowSteps = steps.map(step => ({
+        const workflowSteps = steps.map((step) => ({
           ...step,
           id: randomID(),
           status: StepStatus.PENDING,
         }));
-        
+
         state.steps = workflowSteps;
         state.currentStepIndex = 0;
         state.isCompleted = false;
-        
+
         // Set first step to in progress
         if (workflowSteps.length > 0) {
           workflowSteps[0].status = StepStatus.IN_PROGRESS;
@@ -104,97 +104,97 @@ export const useWorkflowStore = create<WorkflowState>()(
         }
       });
     },
-    
+
     moveToNextStep: () => {
       set((state) => {
         const { steps, currentStepIndex } = state;
-        
+
         if (currentStepIndex >= steps.length - 1) {
           // Workflow is complete
           state.isCompleted = true;
           return;
         }
-        
+
         // Mark current step as completed
         steps[currentStepIndex].status = StepStatus.COMPLETED;
         steps[currentStepIndex].completedAt = Date.now();
-        
+
         // Set next step to in progress
         steps[currentStepIndex + 1].status = StepStatus.IN_PROGRESS;
         steps[currentStepIndex + 1].startedAt = Date.now();
-        
+
         // Update current step index
         state.currentStepIndex = currentStepIndex + 1;
       });
     },
-    
+
     navigateToStep: (stepIndex) => {
       set((state) => {
         const { currentStepIndex } = state;
-        
+
         // Can only navigate to completed steps or the current step
         if (stepIndex < 0 || stepIndex > currentStepIndex) {
           return;
         }
-        
+
         state.currentStepIndex = stepIndex;
       });
     },
-    
+
     requestStepPermission: () => {
       set((state) => {
         const { steps, currentStepIndex } = state;
-        
+
         if (!steps[currentStepIndex].requiresPermission) {
           return;
         }
-        
+
         steps[currentStepIndex].status = StepStatus.WAITING_PERMISSION;
       });
     },
-    
+
     grantStepPermission: () => {
       set((state) => {
         const { steps, currentStepIndex } = state;
-        
+
         steps[currentStepIndex].permissionGranted = true;
         steps[currentStepIndex].status = StepStatus.IN_PROGRESS;
       });
     },
-    
+
     denyStepPermission: () => {
       set((state) => {
         const { steps, currentStepIndex } = state;
-        
+
         steps[currentStepIndex].permissionGranted = false;
         steps[currentStepIndex].status = StepStatus.FAILED;
-        steps[currentStepIndex].errorMessage = 'Permission denied';
+        steps[currentStepIndex].errorMessage = "Permission denied";
       });
     },
-    
+
     toggleAutoAdvance: () => {
       set((state) => {
         state.autoAdvance = !state.autoAdvance;
       });
     },
-    
+
     toggleAskForPermission: () => {
       set((state) => {
         state.askForPermission = !state.askForPermission;
       });
     },
-    
+
     failCurrentStep: (errorMessage) => {
       set((state) => {
         const { steps, currentStepIndex } = state;
-        
+
         steps[currentStepIndex].status = StepStatus.FAILED;
         steps[currentStepIndex].errorMessage = errorMessage;
       });
     },
-    
+
     resetWorkflow: () => {
       set(initialState);
     },
-  }))
+  })),
 );

@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useWorkflowStore, StepStatus } from '@/store/workflowStore';
-import { StepIndicator } from './StepIndicator';
-import { StepContent } from './StepContent';
-import { StepDetail } from './StepDetail';
+import React, { useEffect, useState, useRef } from "react";
+import { useWorkflowStore, StepStatus } from "@/store/workflowStore";
+import { StepIndicator } from "./StepIndicator";
+import { StepContent } from "./StepContent";
+import { StepDetail } from "./StepDetail";
 import {
   subscribeToWorkflowStream,
   WorkflowStreamEvent,
-  mockWorkflowSteps
-} from '@/services/streamWorkflow';
+  mockWorkflowSteps,
+} from "@/services/streamWorkflow";
 
 interface WorkflowProcessorProps {
   // Whether to show settings
@@ -18,7 +18,7 @@ interface WorkflowProcessorProps {
 
 export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
   showSettings = true,
-  autoGrantPermission = false
+  autoGrantPermission = false,
 }) => {
   // Get workflow state and actions
   const {
@@ -34,13 +34,13 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
     grantStepPermission,
     denyStepPermission,
     toggleAutoAdvance,
-    toggleAskForPermission
+    toggleAskForPermission,
   } = useWorkflowStore();
   const [isInitialized, setIsInitialized] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [stepDetails, setStepDetails] = useState<Record<number, string[]>>({});
   const [stepProgress, setStepProgress] = useState<Record<number, number>>({});
-  const [summary, setSummary] = useState<string>('');
+  const [summary, setSummary] = useState<string>("");
   const cancelStreamRef = useRef<(() => void) | null>(null);
 
   // Initialize workflow with steps
@@ -68,18 +68,21 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
   // Handle workflow stream events
   const handleWorkflowEvent = (event: WorkflowStreamEvent) => {
     switch (event.type) {
-      case 'step_update':
+      case "step_update":
         // Update step details and progress
         if (event.detail) {
-          setStepDetails(prev => {
+          setStepDetails((prev) => {
             const newDetails = { ...prev };
-            newDetails[event.stepIndex] = [...(prev[event.stepIndex] || []), event.detail];
+            newDetails[event.stepIndex] = [
+              ...(prev[event.stepIndex] || []),
+              event.detail,
+            ];
             return newDetails;
           });
         }
 
         if (event.progress !== undefined) {
-          setStepProgress(prev => {
+          setStepProgress((prev) => {
             const newProgress = { ...prev };
             newProgress[event.stepIndex] = event.progress || 0;
             return newProgress;
@@ -92,7 +95,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
         }
         break;
 
-      case 'permission_request':
+      case "permission_request":
         // Request permission for the step
         requestStepPermission();
 
@@ -102,7 +105,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
         }
         break;
 
-      case 'workflow_complete':
+      case "workflow_complete":
         // Set workflow completion summary
         setSummary(event.summary);
         break;
@@ -114,7 +117,10 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
     setIsProcessing(true);
 
     // Subscribe to workflow stream
-    const cancel = subscribeToWorkflowStream(handleWorkflowEvent, autoGrantPermission);
+    const cancel = subscribeToWorkflowStream(
+      handleWorkflowEvent,
+      autoGrantPermission,
+    );
     cancelStreamRef.current = cancel;
   };
 
@@ -128,7 +134,11 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
     const step = steps[currentStepIndex];
 
     // Check if step requires permission
-    if (step.requiresPermission && askForPermission && !step.permissionGranted) {
+    if (
+      step.requiresPermission &&
+      askForPermission &&
+      !step.permissionGranted
+    ) {
       requestStepPermission();
     } else {
       moveToNextStep();
@@ -145,10 +155,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
 
     return (
       <div className="prose w-full">
-        <StepDetail
-          details={details}
-          progress={progress}
-        />
+        <StepDetail details={details} progress={progress} />
       </div>
     );
   };
@@ -177,7 +184,10 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
                   checked={autoAdvance}
                   onChange={toggleAutoAdvance}
                 />
-                <label htmlFor="auto-advance" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="auto-advance"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   自动进入下一步
                 </label>
               </div>
@@ -189,7 +199,10 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
                   checked={askForPermission}
                   onChange={toggleAskForPermission}
                 />
-                <label htmlFor="ask-permission" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="ask-permission"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   需要时请求权限
                 </label>
               </div>
@@ -220,8 +233,17 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
         <div className="mt-6 bg-green-50 border border-green-200 rounded-md p-4">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <svg
+                className="h-5 w-5 text-green-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
@@ -229,7 +251,10 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
                 工作流程已完成
               </h3>
               <div className="mt-2 text-sm text-green-700">
-                <p>{summary || '所有步骤已成功处理完毕。您可以点击上方的步骤指示器回顾任何步骤。'}</p>
+                <p>
+                  {summary ||
+                    "所有步骤已成功处理完毕。您可以点击上方的步骤指示器回顾任何步骤。"}
+                </p>
               </div>
             </div>
           </div>
@@ -245,7 +270,7 @@ export const WorkflowProcessor: React.FC<WorkflowProcessorProps> = ({
               initializeWorkflow(mockWorkflowSteps);
               setStepDetails({});
               setStepProgress({});
-              setSummary('');
+              setSummary("");
               setIsProcessing(false);
             }}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

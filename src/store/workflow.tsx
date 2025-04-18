@@ -1,15 +1,15 @@
-import createStore from './createStore';
-import { randomID } from '@/utils/common';
+import createStore from "./createStore";
+import { randomID } from "@/utils/common";
 
 /**
  * Enum for step status
  */
 export enum StepStatus {
-  PENDING = 'pending',
-  IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  WAITING_PERMISSION = 'waiting_permission',
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  COMPLETED = "completed",
+  FAILED = "failed",
+  WAITING_PERMISSION = "waiting_permission",
 }
 
 /**
@@ -64,7 +64,8 @@ export const initialWorkflowState: WorkflowState = {
 };
 
 // Create the store
-const { useStore, setState, getState } = createStore<WorkflowState>(initialWorkflowState);
+const { useStore, setState, getState } =
+  createStore<WorkflowState>(initialWorkflowState);
 
 /**
  * Hook to access the workflow store
@@ -89,8 +90,10 @@ export const getWorkflowStore = getState;
  * Initialize workflow with steps
  * @param steps Array of workflow steps
  */
-export const initializeWorkflow = (steps: Omit<WorkflowStep, 'id' | 'status'>[]) => {
-  const workflowSteps = steps.map(step => ({
+export const initializeWorkflow = (
+  steps: Omit<WorkflowStep, "id" | "status">[],
+) => {
+  const workflowSteps = steps.map((step) => ({
     ...step,
     id: randomID(),
     status: StepStatus.PENDING,
@@ -114,7 +117,7 @@ export const initializeWorkflow = (steps: Omit<WorkflowStep, 'id' | 'status'>[])
  */
 export const moveToNextStep = () => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   if (currentStepIndex >= steps.length - 1) {
     // Workflow is complete
     setWorkflowStore({
@@ -150,7 +153,7 @@ export const moveToNextStep = () => {
  */
 export const navigateToStep = (stepIndex: number) => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   // Can only navigate to completed steps or the current step
   if (stepIndex < 0 || stepIndex > currentStepIndex) {
     return;
@@ -166,7 +169,7 @@ export const navigateToStep = (stepIndex: number) => {
  */
 export const requestStepPermission = () => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   if (!steps[currentStepIndex].requiresPermission) {
     return;
   }
@@ -187,7 +190,7 @@ export const requestStepPermission = () => {
  */
 export const grantStepPermission = () => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   const updatedSteps = [...steps];
   updatedSteps[currentStepIndex] = {
     ...updatedSteps[currentStepIndex],
@@ -205,13 +208,13 @@ export const grantStepPermission = () => {
  */
 export const denyStepPermission = () => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   const updatedSteps = [...steps];
   updatedSteps[currentStepIndex] = {
     ...updatedSteps[currentStepIndex],
     permissionGranted: false,
     status: StepStatus.FAILED,
-    errorMessage: 'Permission denied',
+    errorMessage: "Permission denied",
   };
 
   setWorkflowStore({
@@ -245,7 +248,7 @@ export const toggleAskForPermission = () => {
  */
 export const failCurrentStep = (errorMessage: string) => {
   const { steps, currentStepIndex } = getWorkflowStore();
-  
+
   const updatedSteps = [...steps];
   updatedSteps[currentStepIndex] = {
     ...updatedSteps[currentStepIndex],

@@ -1,11 +1,11 @@
-import { sleep } from '@/utils/common';
-import { WorkflowStep } from '@/store/workflowStore';
+import { sleep } from "@/utils/common";
+import { WorkflowStep } from "@/store/workflowStore";
 
 /**
  * Interface for step update event
  */
 export interface StepUpdateEvent {
-  type: 'step_update';
+  type: "step_update";
   stepIndex: number;
   progress?: number;
   detail: string;
@@ -15,7 +15,7 @@ export interface StepUpdateEvent {
  * Interface for permission request event
  */
 export interface PermissionRequestEvent {
-  type: 'permission_request';
+  type: "permission_request";
   stepIndex: number;
   reason: string;
 }
@@ -24,7 +24,7 @@ export interface PermissionRequestEvent {
  * Interface for workflow completion event
  */
 export interface WorkflowCompletionEvent {
-  type: 'workflow_complete';
+  type: "workflow_complete";
   summary: string;
 }
 
@@ -44,71 +44,66 @@ export type WorkflowStreamHandler = (event: WorkflowStreamEvent) => void;
 /**
  * Mock workflow steps data
  */
-export const mockWorkflowSteps: Omit<WorkflowStep, 'id' | 'status'>[] = [
+export const mockWorkflowSteps: Omit<WorkflowStep, "id" | "status">[] = [
   {
-    title: '任务接收',
-    description: '接收用户提交的任务请求并验证',
+    title: "任务接收",
+    description: "接收用户提交的任务请求并验证",
     requiresPermission: false,
   },
   {
-    title: '任务分析',
-    description: '分析任务内容和要求，确定处理方案',
+    title: "任务分析",
+    description: "分析任务内容和要求，确定处理方案",
     requiresPermission: false,
   },
   {
-    title: '资源访问',
-    description: '访问需要的系统资源和数据',
+    title: "资源访问",
+    description: "访问需要的系统资源和数据",
     requiresPermission: true,
   },
   {
-    title: '执行处理',
-    description: '执行任务的主要处理逻辑',
+    title: "执行处理",
+    description: "执行任务的主要处理逻辑",
     requiresPermission: false,
   },
   {
-    title: '结果生成',
-    description: '生成任务处理结果并格式化',
+    title: "结果生成",
+    description: "生成任务处理结果并格式化",
     requiresPermission: false,
-  }
+  },
 ];
 
 /**
  * Mock step processing details
  */
 const mockStepDetails: Record<number, string[]> = {
-  0: [
-    '接收用户请求...',
-    '验证请求格式...',
-    '检查请求参数...',
-    '请求验证通过',
-  ],
+  0: ["接收用户请求...", "验证请求格式...", "检查请求参数...", "请求验证通过"],
   1: [
-    '分析任务类型...',
-    '确定处理优先级...',
-    '加载处理模型...',
-    '生成处理方案...',
-    '方案确认完成',
+    "分析任务类型...",
+    "确定处理优先级...",
+    "加载处理模型...",
+    "生成处理方案...",
+    "方案确认完成",
   ],
   2: [
-    '检查资源权限...',
-    '请求访问数据库...',
-    '加载系统资源...',
-    '资源准备完成',
+    "检查资源权限...",
+    "请求访问数据库...",
+    "加载系统资源...",
+    "资源准备完成",
   ],
   3: [
-    '初始化处理环境...',
-    '执行数据转换...',
-    '应用业务规则...',
-    '执行核心算法...',
-    '验证处理结果...',
-    '处理完成',
+    "初始化处理环境...",
+    "执行数据转换...",
+    "应用业务规则...",
+    "执行核心算法...",
+    "验证处理结果...",
+    "处理完成",
   ],
   4: [
-    '整合处理结果...',
-    '格式化输出数据...',
-    '生成报告...',
-    '结果验证...',
-    '完成',
+    "整合处理结果...",
+    "格式化输出数据...",
+    "生成报告...",
+    "结果验证...",
+    "完成",
   ],
 };
 
@@ -118,7 +113,7 @@ const mockStepDetails: Record<number, string[]> = {
  * @param autoGrantPermission Whether to automatically grant permission
  */
 export async function* streamWorkflow(
-  autoGrantPermission: boolean = false
+  autoGrantPermission: boolean = false,
 ): AsyncGenerator<WorkflowStreamEvent> {
   // Process each step
   for (let stepIndex = 0; stepIndex < mockWorkflowSteps.length; stepIndex++) {
@@ -126,10 +121,10 @@ export async function* streamWorkflow(
 
     // Yield step start event
     yield {
-      type: 'step_update',
+      type: "step_update",
       stepIndex,
       progress: 0,
-      detail: '开始处理...',
+      detail: "开始处理...",
     };
 
     await sleep(1000);
@@ -137,7 +132,7 @@ export async function* streamWorkflow(
     // Check if step requires permission
     if (step.requiresPermission) {
       yield {
-        type: 'permission_request',
+        type: "permission_request",
         stepIndex,
         reason: `步骤 "${step.title}" 需要访问权限才能继续`,
       };
@@ -158,7 +153,7 @@ export async function* streamWorkflow(
       const progress = Math.round(((i + 1) / details.length) * 100);
 
       yield {
-        type: 'step_update',
+        type: "step_update",
         stepIndex,
         progress,
         detail: details[i],
@@ -171,8 +166,8 @@ export async function* streamWorkflow(
 
   // Workflow complete
   yield {
-    type: 'workflow_complete',
-    summary: '所有步骤已成功完成，任务处理结束',
+    type: "workflow_complete",
+    summary: "所有步骤已成功完成，任务处理结束",
   };
 }
 
@@ -184,7 +179,7 @@ export async function* streamWorkflow(
  */
 export function subscribeToWorkflowStream(
   handler: WorkflowStreamHandler,
-  autoGrantPermission: boolean = false
+  autoGrantPermission: boolean = false,
 ): () => void {
   let cancelled = false;
 

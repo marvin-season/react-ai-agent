@@ -13,7 +13,7 @@ const App: React.FC = () => {
       </header>
 
       <main>
-        <AgentPanel/>
+        <AgentPanel />
         {/* <WorkflowProcessor autoGrantPermission={true} /> */}
       </main>
     </div>

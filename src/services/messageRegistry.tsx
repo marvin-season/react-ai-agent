@@ -1,6 +1,12 @@
 import React, { ReactNode } from "react";
 import { IMessageProps, MessageType } from "@/store/agentStore";
-import { SystemMessage, UserMessage, BotMessage, ToolMessage, ComputerMessage } from "@/components/messages";
+import {
+  SystemMessage,
+  UserMessage,
+  BotMessage,
+  ToolMessage,
+  ComputerMessage,
+} from "@/components/messages";
 import { BaseMessageProps } from "@/types";
 
 /**

@@ -54,12 +54,19 @@ function createStore<T>(initialState: T) {
    * @param selector Optional selector function to extract specific state
    * @returns Selected state or full state
    */
-  const useStore = <R = T>(selector?: Selector<T, R>): R | T => {
+  const useStore = <R = T,>(selector?: Selector<T, R>): R | T => {
     // If selector is provided, use it to extract specific state
     if (selector) {
       // Create a memoized selector that only updates when selected value changes
-      const memoizedSelector = useCallback(() => selector(getSnapshot()), [selector]);
-      return useSyncExternalStore(subscribe, memoizedSelector, memoizedSelector);
+      const memoizedSelector = useCallback(
+        () => selector(getSnapshot()),
+        [selector],
+      );
+      return useSyncExternalStore(
+        subscribe,
+        memoizedSelector,
+        memoizedSelector,
+      );
     }
 
     // Otherwise return the full state
@@ -73,4 +80,4 @@ function createStore<T>(initialState: T) {
   };
 }
 
-export default createStore
+export default createStore;
