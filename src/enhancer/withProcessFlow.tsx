@@ -37,7 +37,7 @@ export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
     };
   }, [message.id, setProcesses]);
   return (
-    <div className="w-full max-w-[500px] max-h-36 break-words bg-white border p-4 rounded-xl text-sm overflow-y-auto">
+    <div className="w-full break-words bg-white border p-4 rounded-xl text-sm overflow-y-auto">
       {processes.map((props, index) => {
         return <Process key={index} {...props} />;
       })}

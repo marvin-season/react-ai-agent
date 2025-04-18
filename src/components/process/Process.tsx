@@ -23,6 +23,7 @@ export const Process = memo(({ content, status }: ProcessProps) => {
     <div className="flex gap-2 border mt-2 p-2 rounded bg-slate-50">
       <span>{icons[status]}</span>
       <span
+        className="text-xs"
         style={{
           color: randomColorHex(),
         }}
