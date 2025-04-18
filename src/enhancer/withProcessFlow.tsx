@@ -1,4 +1,5 @@
-import { Process, ProcessProps } from "@/components/process";
+import { ToolProcess, ProcessProps } from "@/components/process";
+import { processRegistry } from "@/services/processRegistry";
 import { IMessageProps } from "@/store/agentStore";
 import { BaseMessageProps } from "@/types";
 import { EE, genrateEventName } from "@/utils/events";
@@ -38,9 +39,7 @@ export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
 
   return (
     <div className="w-full break-words bg-white border p-4 rounded-xl text-sm overflow-y-auto">
-      {processes.map((props, index) => {
-        return <Process key={index} {...props} />;
-      })}
+      {processes.map((props, index) => processRegistry.renderProcess(props))}
     </div>
   );
 };

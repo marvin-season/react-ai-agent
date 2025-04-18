@@ -41,7 +41,7 @@ function* generateComputerMessage(input: string) {
           id,
           content: element.slice(1, -1),
           status: status[index++ % status.length],
-          type: ProcessType.tool
+          type: ProcessType.tool,
         } satisfies ProcessProps;
       }
     }

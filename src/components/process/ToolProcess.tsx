@@ -9,13 +9,13 @@ export enum ProcessStatus {
 }
 
 export enum ProcessType {
-  tool = 'tool'
+  tool = "tool",
 }
 export interface ProcessProps {
   id: number;
   status: ProcessStatus;
   content: string;
-  type: ProcessType
+  type: ProcessType;
 }
 
 const icons = {
@@ -23,7 +23,7 @@ const icons = {
   [ProcessStatus.processing]: <Loader color="#4f4" size={16} />,
   [ProcessStatus.completed]: <CircleCheckBig color="#4f7" size={16} />,
 };
-export const Process = memo(({ content, status }: ProcessProps) => {
+export const ToolProcess = memo(({ content, status }: ProcessProps) => {
   return (
     <div className="flex gap-2 border mt-2 p-2 rounded bg-slate-50">
       <span>{icons[status]}</span>
