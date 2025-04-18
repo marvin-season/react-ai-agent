@@ -39,10 +39,12 @@ function* generateComputerMessage(input: string) {
         console.log("element", element);
         yield {
           id,
-          content: element.slice(1, -1),
+          content: {
+            timestamp: 'asas'
+          },
           status: status[index++ % status.length],
-          type: ProcessType.tool,
-        } satisfies ProcessProps;
+          type: ProcessType.file,
+        } as ProcessProps<ProcessType.file>;
       }
     }
   }

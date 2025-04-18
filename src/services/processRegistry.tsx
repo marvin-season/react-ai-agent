@@ -1,4 +1,4 @@
-import { ProcessProps, ProcessType, ToolProcess } from "@/components/process";
+import { FileProcess, ProcessProps, ProcessType, ToolProcess } from "@/components/process";
 import { FC } from "react";
 
 class ProcessRegistry {
@@ -21,6 +21,7 @@ class ProcessRegistry {
 
   initializeDefaults(): void {
     this.register(ProcessType.tool, ToolProcess as FC<ProcessProps>);
+    this.register(ProcessType.file, FileProcess as FC<ProcessProps>);
   }
 }
 
