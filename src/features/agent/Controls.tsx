@@ -2,7 +2,7 @@ import React from "react";
 import { MessageType, useAgentStore } from "@/store/agentStore";
 import { EE, genrateEventName } from "@/utils/events";
 import { randomID, sleep } from "@/utils/common";
-import { Process } from "@/components/messages";
+import { Process, ProcessStatus } from "@/components/messages";
 
 /**
  * Component for chat control buttons
@@ -77,7 +77,7 @@ export const Controls: React.FC = () => {
     for (const element of processes) {
       await sleep(1000)
       EE.emit(genrateEventName(newMessage), {
-        process: () => <Process content={element} />
+        process: () => <Process content={element} status={ProcessStatus.completed} />
       });
     }
 

@@ -1,13 +1,6 @@
 import { memo } from 'react';
-import { randomColorHex } from '@/utils/common';
 import { BaseMessageProps } from '@/types';
 
-
-export const Process = memo(({ content }: { content: string }) => {
-    return <div style={{
-        color: randomColorHex()
-    }}>{content}</div>
-})
 
 /**
  * Computer message UI component
