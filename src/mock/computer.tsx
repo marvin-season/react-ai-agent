@@ -13,42 +13,33 @@ export const updateComputerMessage = async (updateMessage: AgentState['updateMes
 
     updateMessage(newMessage);
 
-    const processes: ProcessProps[] = [
-            {
-                id: 1,
-                status: ProcessStatus.pending,
-                content: '开始处理'
-            },
-            {
-                id: 1,
-                status: ProcessStatus.processing,
-                content: '处理中',
-            },
-            {
-                id: 1,
-                status: ProcessStatus.completed,
-                content: '处理完成',
-            },
-            {
-                id: 2,
-                status: ProcessStatus.pending,
-                content: '开始处理'
-            },
-            {
-                id: 2,
-                status: ProcessStatus.processing,
-                content: '处理中',
-            },
-            {
-                id: 2,
-                status: ProcessStatus.completed,
-                content: '处理完成',
-            },
-        ]
-    for (const element of processes) {
+    for (const element of generateComputerMessage(str)) {
         await sleep(1000)
         EE.emit(genrateEventName(newMessage), {
             process: element
         });
+    }
+}
+
+const str: string = "[开始调用天气查询][天气查询完毕][][开始调用地图查询][地图查询完毕][][开始调用翻译查询][翻译查询完毕][][开始调用语音合成][语音合成完毕][][开始调用语音播放][语音播放完毕][]"
+
+function* generateComputerMessage(input: string) {
+    const processes = input.split('[]');
+    let index = 0;
+    let id = 0;
+    const status = [ProcessStatus.processing, ProcessStatus.completed];
+    for (const progress of processes) {
+        id++;
+        const matches = progress.match(/\[.+?\]/g);
+        if (matches) {
+            for (const element of matches) {
+                console.log('element', element)
+                yield {
+                    id,
+                    content: element.slice(1, -1),
+                    status: status[index++ % status.length]
+                } satisfies ProcessProps
+            }
+        }
     }
 }
