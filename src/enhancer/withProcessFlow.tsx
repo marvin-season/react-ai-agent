@@ -1,4 +1,4 @@
-import { Process, ProcessProps } from "@/components/messages";
+import { Process, ProcessProps } from "@/components/process";
 import { IMessageProps } from "@/store/agentStore";
 import { BaseMessageProps } from "@/types";
 import { EE, genrateEventName } from "@/utils/events";

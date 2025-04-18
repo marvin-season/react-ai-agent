@@ -4,4 +4,3 @@ export * from "./UserMessage";
 export * from "./BotMessage";
 export * from "./ToolMessage";
 export * from "./ComputerMessage";
-export * from "./Process";

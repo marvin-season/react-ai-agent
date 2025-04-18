@@ -7,7 +7,7 @@ const ComputerProcessMessage = memo(withProcessFlow(() => <></>));
 function Computer() {
   const messages = useAgentStore((state) => state.messages);
   return (
-    <div className="flex flex-col gap-2 w-full max-w-4xl mx-auto">
+    <div className="flex-1 flex flex-col gap-2 mx-auto">
       {messages
         .filter((item) => item.type === MessageType.computer)
         .map((item) => {

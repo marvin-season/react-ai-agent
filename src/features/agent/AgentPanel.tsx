@@ -25,9 +25,9 @@ export const AgentPanel: React.FC = () => {
     };
   }, []);
   return (
-    <div className="flex flex-col w-full max-w-4xl mx-auto">
+    <div className="flex flex-col w-full mx-auto">
       <Controls />
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center">
         <MessageList />
         <Computer />
       </div>

@@ -14,5 +14,5 @@ export const MessageList: React.FC = () => {
     return messages.map((message) => messageRegistry.renderMessage(message));
   }, [messages]);
 
-  return <div className="flex flex-col gap-3 p-4">{renderedMessages}</div>;
+  return <div className="flex-1 flex flex-col gap-3 p-4">{renderedMessages}</div>;
 };

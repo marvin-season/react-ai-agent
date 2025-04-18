@@ -1,4 +1,4 @@
-import { Process, ProcessProps, ProcessStatus } from "@/components/messages";
+import { Process, ProcessProps, ProcessStatus } from "@/components/process";
 import { AgentState, IMessageProps, MessageType } from "@/store/agentStore";
 import { randomID, sleep } from "@/utils/common";
 import { EE, genrateEventName } from "@/utils/events";
