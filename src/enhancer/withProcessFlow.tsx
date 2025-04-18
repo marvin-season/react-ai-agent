@@ -1,20 +1,30 @@
+import { Process, ProcessProps } from "@/components/messages";
 import { IMessageProps } from "@/store/agentStore";
 import { BaseMessageProps } from "@/types";
 import { EE, genrateEventName } from "@/utils/events";
-import { ComponentType, FC, FunctionComponent, memo, ReactNode, useEffect, useState } from "react"
+import { ComponentType, FC, ReactNode, useEffect, useState } from "react"
+import { useImmer } from "use-immer";
 
 type processType = () => ReactNode
 
 
 export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
-    const [processes, setProcesses] = useState<processType[]>([]);
+    const [processes, setProcesses] = useImmer<ProcessProps[]>([]);
 
     useEffect(() => {
         // Handler for tool events
-        const handler = (data: { process: processType }) => {
-            console.log(data)
-            setProcesses(prev => {
-                return prev.concat([data.process])
+        const handler = ({ process }: { process: ProcessProps }) => {
+            console.log('process', process);
+            setProcesses(draft => {
+                // 使用 draft 而不是 processes 来查找索引
+                const index = draft.findIndex(item => item.id === process.id)
+                if (index > -1) {
+                    // 直接修改 draft，Immer 会处理不可变性
+                    draft[index] = process
+                } else {
+                    // 使用 push 方法添加新元素
+                    draft.push(process)
+                }
             })
         };
         const event = genrateEventName(message)
@@ -26,11 +36,11 @@ export const ProcessFlow: FC<BaseMessageProps> = ({ message }) => {
         return () => {
             EE.off(event, handler);
         };
-    }, [message.id]);
+    }, [message.id, setProcesses]);
     return <div className="w-full max-w-[500px] max-h-36 break-words bg-white px-2 py-1 rounded-xl text-sm overflow-y-auto">
         {
-            processes.map((Processes, index) => {
-                return <Processes key={index} />
+            processes.map((props, index) => {
+                return <Process key={index} {...props} />
             })
         }
     </div>

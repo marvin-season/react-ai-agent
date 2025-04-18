@@ -31,7 +31,7 @@ export interface IMessageProps {
 /**
  * Interface for agent store state
  */
-interface AgentState {
+export interface AgentState {
   /** Array of messages */
   messages: IMessageProps[];
   

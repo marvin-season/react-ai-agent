@@ -6,7 +6,8 @@ export enum ProcessStatus {
     processing = "processing",
     completed = "completed"
 }
-interface ProcessProps {
+export interface ProcessProps {
+    id: number;
     status: ProcessStatus;
     content: string;
 }

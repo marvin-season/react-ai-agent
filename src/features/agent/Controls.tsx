@@ -3,6 +3,7 @@ import { MessageType, useAgentStore } from "@/store/agentStore";
 import { EE, genrateEventName } from "@/utils/events";
 import { randomID, sleep } from "@/utils/common";
 import { Process, ProcessStatus } from "@/components/messages";
+import { updateComputerMessage } from "@/mock/computer";
 
 /**
  * Component for chat control buttons
@@ -66,21 +67,7 @@ export const Controls: React.FC = () => {
   };
 
   const handleComputerClick = async () => {
-    const id = randomID();
-    const newMessage = {
-      content: "hello",
-      type: MessageType.computer,
-      id
-    }
-    updateMessage(newMessage);
-    const processes = ["读取文件", "读取成功", "开始解析", "解析完成", "处理中", "处理完成"]
-    for (const element of processes) {
-      await sleep(1000)
-      EE.emit(genrateEventName(newMessage), {
-        process: () => <Process content={element} status={ProcessStatus.completed} />
-      });
-    }
-
+    updateComputerMessage(updateMessage)    
   }
 
   return (
